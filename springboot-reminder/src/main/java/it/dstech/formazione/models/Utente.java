@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ public class Utente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String user;
+	private String username;
 	private String password;
 	private String mail;
 	@Lob
@@ -28,7 +29,7 @@ public class Utente {
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
 	private Set<Ruolo> ruolo;
 	private boolean active;
-	@OneToMany(mappedBy = "utente")
+	@OneToMany(mappedBy = "utente", fetch = FetchType.EAGER)
 	private List<Evento> eventi;
 
 	public Long getId() {
@@ -39,12 +40,12 @@ public class Utente {
 		this.id = id;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {

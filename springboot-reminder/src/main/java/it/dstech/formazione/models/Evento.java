@@ -1,6 +1,7 @@
 package it.dstech.formazione.models;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Evento {
 	private String descrizione;
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	private LocalDate data;
+	private LocalDateTime data;
 	@ManyToOne
 	@JoinColumn(name = "utente_id")
 	private Utente utente;
@@ -51,11 +52,11 @@ public class Evento {
 		this.descrizione = descrizione;
 	}
 
-	public LocalDate getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setData(LocalDate data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
 	}
 
