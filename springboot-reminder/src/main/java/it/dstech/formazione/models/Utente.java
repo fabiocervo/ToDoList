@@ -25,7 +25,7 @@ public class Utente {
 	private String mail;
 	@Lob
 	private String image;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
 	private Set<Ruolo> ruolo;
 	private boolean active;
