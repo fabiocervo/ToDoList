@@ -32,12 +32,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		String loginPage = "/login";
 		String logoutPage = "/logout";
 
-		http.authorizeRequests().antMatchers("/").permitAll().antMatchers(loginPage).permitAll()
-				.antMatchers("/registrazione").permitAll().antMatchers("/utente/**").hasAuthority("UTENTE")
+		http.authorizeRequests()
+		        .antMatchers("/").permitAll()
+		        .antMatchers(loginPage).permitAll()
+				.antMatchers("/registrazione").permitAll()
+				.antMatchers("/utente/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated().and().csrf()
-				.disable().formLogin().loginPage(loginPage).loginPage("/").defaultSuccessUrl("/utente/home")
-				.failureUrl("/login?error=true").usernameParameter("username").passwordParameter("password").and()
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher(logoutPage)).logoutSuccessUrl(loginPage).and()
+				.disable().formLogin().loginPage(loginPage).loginPage("/")
+				.failureUrl("/login?error=true")
+				.defaultSuccessUrl("/utente/home")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.and()
+				.logout().logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
+				.logoutSuccessUrl(loginPage).and()
 				.exceptionHandling();
 	}
 

@@ -95,5 +95,7 @@ public class Utente {
 	public void setEventi(List<Evento> eventi) {
 		this.eventi = eventi;
 	}
+	
+	
 
 }
