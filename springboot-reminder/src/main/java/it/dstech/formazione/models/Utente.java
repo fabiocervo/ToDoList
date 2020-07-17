@@ -24,7 +24,7 @@ public class Utente {
 	private String password;
 	private String mail;
 	@Lob
-	private byte[] image;
+	private String image;
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
 	private Set<Ruolo> ruolo;
@@ -64,11 +64,11 @@ public class Utente {
 		this.mail = mail;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 

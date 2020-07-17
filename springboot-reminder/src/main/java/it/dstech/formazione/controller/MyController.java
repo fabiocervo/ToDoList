@@ -1,8 +1,13 @@
 package it.dstech.formazione.controller;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.TimeZone;
+
+import javax.servlet.http.Part;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -54,7 +61,7 @@ public class MyController {
 	}
 
 	@PostMapping(value = "/registrazione")
-	public ModelAndView createNewUser(Utente user, BindingResult bindingResult) {
+	public ModelAndView createNewUser(Utente user, BindingResult bindingResult, @RequestParam("file") MultipartFile multiPartFile) {
 		ModelAndView modelAndView = new ModelAndView();
 		Utente userExists = utenteServ.findByUsername(user.getUsername());
 		if (userExists != null) {
@@ -66,6 +73,19 @@ public class MyController {
 		if (bindingResult.hasErrors()) {
 			modelAndView.setViewName("registrazione");
 		} else {
+			MultipartFile image =  multiPartFile;
+		      InputStream f;
+			try {
+				f = image.getInputStream();
+			
+		      byte[] imageBytes = new byte[(int) image.getSize()];
+		      f.read(imageBytes, 0, imageBytes.length);
+		      f.close();
+		      user.setImage(Base64.getEncoder().encodeToString(imageBytes));
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
 			utenteServ.add(user);
 			modelAndView.addObject("messaggio", "User has been registered successfully");
 			modelAndView.setViewName("login");

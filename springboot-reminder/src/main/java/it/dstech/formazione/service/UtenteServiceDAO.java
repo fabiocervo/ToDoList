@@ -22,5 +22,6 @@ public interface UtenteServiceDAO {
 	Utente findByUsernameAndPassword(String username, String password);
 	
 	void addEvento(Utente utente, Evento evento);
-
+	
+	
 }
