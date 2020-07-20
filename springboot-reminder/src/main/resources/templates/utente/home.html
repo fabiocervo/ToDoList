@@ -2,15 +2,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
- <title>Spring Security Tutorial</title>
-   
+ <title>Reminder</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/loginL.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="container">
+<h2 th:text="'Benvenuto '+ ${utente.getUsername()}"></h2> <a th:href="@{/logout}">Logout</a>
+<img class= "img-thumbnail" style="width:200px;height:200px;" th:src="|data:image/png;base64,${immagine}|"/>
 
- ciao
+<h3>Crea la tua attività giornaliera</h3>
+
+<form action="#" th:action="@{/salvaEvento}" th:object="${evento}" method="post">
+		<input th:type="text" id="nome" th:field="*{nome}" placeholder="Nome evento"
+			class="form-control" /> <br /> 
+			<input th:type="text" id="descrizione" th:field="*{descrizione}" placeholder="Descrizione evento"
+			class="form-control" /> <br /> 
+		<input type="datetime-local" id = "data" name="data" th:field="*{date}" min="01-01-2020" placeholder="dd-mm-yyyy" class="form-control" /> <br> 
+
+		<button class="btn btn-md btn-warning btn-block" type="Submit">Aggiungi Evento</button>
+
+	</form>
+	
+	<table class="table table-striped table-responsive-md">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Descrizione</th>
+				<th>Data</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="evento : ${listaEventi}">
+				<td th:text="${evento.nome}"></td>
+				<td th:text="${evento.descrizione}"></td>
+				<td th:text="${evento.data}"></td>
+			
+			</tr>
+		</tbody>
+	</table>
+</div>
+ 
  
 </body>
 </html>

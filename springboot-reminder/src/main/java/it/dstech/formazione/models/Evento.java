@@ -21,12 +21,21 @@ public class Evento {
 	private Long id;
 	private String nome;
 	private String descrizione;
+	private String date;
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private LocalDateTime data;
 	@ManyToOne
 	@JoinColumn(name = "utente_id")
 	private Utente utente;
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
 
 	public Long getId() {
 		return id;

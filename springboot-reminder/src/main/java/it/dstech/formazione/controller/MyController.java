@@ -4,6 +4,7 @@ package it.dstech.formazione.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.TimeZone;
 
@@ -101,6 +102,8 @@ public class MyController {
 		mav.setViewName("utente/home");
 		mav.addObject("listaEventi", utente.getEventi());
 		mav.addObject("utente", utente);
+		mav.addObject("immagine", utente.getImage());
+		mav.addObject("evento", new Evento());
 		return mav;
 	}
 	
@@ -111,6 +114,9 @@ public class MyController {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	Utente user = utenteServ.findByUsername(auth.getName());
     	evento.setUtente(user);
+    	DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+    	LocalDateTime dateTime = LocalDateTime.parse(evento.getDate(), formatter);
+    	evento.setData(dateTime);
         Evento eventoSalvato = eventoServ.add(evento);
     	utenteServ.addEvento(user, evento);
     	if (eventoSalvato != null) {
@@ -121,13 +127,13 @@ public class MyController {
 			int mese = data.getMonthValue();
 			String expression = "";
 			if ((minuti - 5)<0) {
-				expression += "0 " + (minuti+5) + " " + (ore-1) + " " + giorno + " " + mese + "?";
+				expression += "0 " + (minuti+55) + " " + (ore-1) + " " + giorno + " " + mese + " " + "?";
 				if ((ore-1)<0) {
-					expression += "0 " + (minuti+5) + " " + (ore+23) + " " + giorno + " " + mese + "?";
-				} else {
-					expression += "0 " + (minuti-5) + " " + (ore) + " " + giorno + " " + mese + "?";
+					expression += "0 " + (minuti+55) + " " + (ore+23) + " " + giorno + " " + mese + " " + "?";
+				} 
+			} else {
+					expression += "0 " + (minuti-5) + " " + (ore) + " " + giorno + " " + mese + " " + "?";
 				}
-			} 
 			LOGGER.info("chist è o' cron " + expression);
 			CronTrigger trigger = new CronTrigger(expression, TimeZone.getTimeZone(TimeZone.getDefault().getID()));
 			Sched sched = new Sched(eventoSalvato, mailServ);
